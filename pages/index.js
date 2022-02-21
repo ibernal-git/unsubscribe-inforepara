@@ -28,7 +28,7 @@ export default function Home () {
       </Head>
 
       <main className={styles.main}>
-        <Image src='https://inforepara.es/email/cctv/logo-email@2x.png' width='298' height='81' alt='InfoRepara'/>
+        <Image src='https://inforepara.es/wp-content/uploads/2019/07/logo_high_dpi.png' width='298' height='81' alt='InfoRepara'/>
         <h1 className={styles.title}>
           Cancela la suscripción de la lista de correo
         </h1>
