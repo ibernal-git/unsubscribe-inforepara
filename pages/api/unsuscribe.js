@@ -22,21 +22,16 @@ export default async function unsuscribe (req, res) {
           .status(400)
           .json({ error: 'You are a robot' })
       }
-      console.log(query)
 
-      const results = await query(
+      query(
       `
       INSERT INTO mailing (email)
       VALUES (?)
       `,
       [email]
       ).then((results) => {
-        console.log('dentro')
-        console.log(results)
+        return res.json({ message: 'Suscripción correctamente cancelada', results: results })
       })
-      console.log(`Los results fuera: ${results}`)
-
-      return res.json({ message: 'Suscripción correctamente cancelada', results: results })
     } catch (e) {
       res.status(500).json({ error: e })
     }
