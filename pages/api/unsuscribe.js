@@ -5,11 +5,10 @@ export default async function unsuscribe (req, res) {
   if (req.headers.host !== process.env.APP_HOST) {
     return res.status(403).json({ error: 'Forbidden' })
   } else {
-    console.log(req.body)
     const { email, captchaToken } = JSON.parse(req.body)
-    console.log(email, captchaToken)
     try {
       const validCaptcha = await isValidCaptcha(captchaToken)
+      console.log(`Es valido o no: ${validCaptcha}`)
 
       if (!email) {
         return res
