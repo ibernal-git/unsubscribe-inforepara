@@ -29,7 +29,7 @@ export default async function unsuscribe (req, res) {
       [email]
       )
 
-      return res.json({ results: results })
+      return res.json(results)
     } catch (e) {
       res.status(500).json({ error: e })
     }
