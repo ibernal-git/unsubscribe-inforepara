@@ -19,6 +19,7 @@ console.log({
 
 export async function query (q, values) {
   try {
+    console.log('hola')
     const results = await db.query(q, values)
     await db.end()
     console.log(results)
