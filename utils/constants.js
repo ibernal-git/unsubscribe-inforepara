@@ -1,0 +1,3 @@
+export const CAPTCHA_CONFIG = {
+  CAPTCHA_SITE_SECRET: '6LdsMZIeAAAAAAIO5ObbkD6Xt-C6zpTyfKUyEs_R'
+}

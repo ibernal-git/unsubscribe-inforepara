@@ -9,3 +9,4 @@ You need to add the following env variables in order to work.
 - MYSQL_PASSWORD="database_password"
 - APP_HOST="app_host"
 - IMAGES_HOST="images_host"
+- CAPTCHA_PRIVATE_KEY="captcha_private_key"

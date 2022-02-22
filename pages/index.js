@@ -2,23 +2,49 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import validator from 'validator'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
+import { CAPTCHA_CONFIG } from '../utils/constants'
 
 export default function Home () {
-  const [notification, setNotification] = useState()
-  const handleSubmit = (event) => {
+  const recaptchaRef = useRef(null)
+  const [notification, setNotification] = useState('')
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
+    const captchaToken = await recaptchaRef.current.executeAsync()
+    recaptchaRef.current.reset()
+
     const email = event.target.email.value
+
+    if (!captchaToken) {
+      setNotification('Verifica que no eres un robot 😊')
+      return
+    }
+
     if (validator.isEmail(email)) {
       setNotification('')
-      fetch('http://localhost:3000/api/unsuscribe', {
-        method: 'POST',
-        body: JSON.stringify({ email: event.target.email.value })
-      })
+      try {
+        const response = await fetch('/api/unsuscribe', {
+          method: 'POST',
+          body: JSON.stringify({ email: event.target.email.value, captchaToken: captchaToken })
+        })
+
+        if (response.status !== 200) {
+          const { error } = await response.json()
+          setNotification(error)
+          throw new Error(error)
+        } else {
+          setNotification('Suscripción correctamente cancelada')
+        }
+      } catch (e) {
+        console.error(e)
+      }
     } else {
       setNotification('Email incorrecto')
     }
   }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -35,6 +61,11 @@ export default function Home () {
         <form onSubmit={handleSubmit}>
           <input name="email" type="text" placeholder="prueba@prueba.com"></input>
           <button>Enviar</button>
+         <ReCAPTCHA
+             ref={recaptchaRef}
+            sitekey={CAPTCHA_CONFIG.CAPTCHA_SITE_SECRET}
+            size="invisible"
+         />
         </form>
         {notification ? <p>{notification}</p> : null}
 
