@@ -22,7 +22,7 @@ export async function query (q, values) {
     console.log(q, values)
     const results = await db.query(q, values)
     await db.end()
-    console.log(results)
+    console.log(`Los resultados: ${results}`)
     return results
   } catch (e) {
     console.log(e)
