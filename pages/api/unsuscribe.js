@@ -22,6 +22,7 @@ export default async function unsuscribe (req, res) {
           .status(400)
           .json({ error: 'You are a robot' })
       }
+      console.log(query)
 
       const results = await query(
       `
