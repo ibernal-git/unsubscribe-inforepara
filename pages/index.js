@@ -25,14 +25,17 @@ export default function Home () {
 
     if (validator.isEmail(email)) {
       setNotification('')
+      console.log({ email: event.target.email.value, captchaToken: captchaToken })
       try {
-        const response = await fetch('/api/unsuscribe', {
+        const response = await fetch('/api/unsubscribe', {
           method: 'POST',
-          body: JSON.stringify({ email: event.target.email.value, captchaToken: captchaToken })
+          body: JSON.stringify({ email: event.target.email.value, captchaToken: captchaToken }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
         })
-        console.log(response)
 
-        if (response.status !== 200) {
+        if (response.status !== 201) {
           console.log(response)
           const { error } = await response.json()
           setNotification(error)
