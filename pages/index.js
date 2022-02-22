@@ -29,8 +29,10 @@ export default function Home () {
           method: 'POST',
           body: JSON.stringify({ email: event.target.email.value, captchaToken: captchaToken })
         })
+        console.log(response)
 
         if (response.status !== 200) {
+          console.log(response)
           const { error } = await response.json()
           setNotification(error)
           throw new Error(error)
