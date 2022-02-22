@@ -2,7 +2,7 @@ import isValidCaptcha from '../../recaptcha'
 import { query } from '../../utils/db'
 
 export default async function unsuscribe (req, res) {
-  if (req.headers.host !== process.env.APP_HOST) {
+  if (false && req.headers.host !== process.env.APP_HOST) {
     return res.status(403).json({ error: 'Forbidden' })
   } else {
     const { email, captchaToken } = JSON.parse(req.body)
@@ -31,10 +31,10 @@ export default async function unsuscribe (req, res) {
       )
       console.log(results)
 
-      return res.json({ results: 'ok' })
+      return res.status(200) // ({ results: 'ok' })
     } catch (e) {
       console.log(e)
-      return res.status(500).json({ error: e })
+      return res.status(500) // .json({ error: e })
     }
   }
 }
