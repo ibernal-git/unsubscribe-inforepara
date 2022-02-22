@@ -8,7 +8,6 @@ export default async function unsuscribe (req, res) {
     const { email, captchaToken } = JSON.parse(req.body)
     try {
       let validCaptcha = await isValidCaptcha(captchaToken)
-      console.log(`Es valido o no: ${validCaptcha}`)
       validCaptcha = true
 
       if (!email) {
@@ -23,17 +22,19 @@ export default async function unsuscribe (req, res) {
           .json({ error: 'You are a robot' })
       }
 
-      query(
+      const results = await query(
       `
       INSERT INTO mailing (email)
       VALUES (?)
       `,
       [email]
-      ).then((results) => {
-        return res.json({ message: 'Suscripción correctamente cancelada', results: results })
-      })
+      )
+      console.log(results)
+
+      return res.json({ results: 'ok' })
     } catch (e) {
-      res.status(500).json({ error: e })
+      console.log(e)
+      return res.status(500).json({ error: e })
     }
   }
 }
