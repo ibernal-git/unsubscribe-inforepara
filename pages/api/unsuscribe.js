@@ -1,9 +1,9 @@
 import isValidCaptcha from '../../recaptcha'
-import query from '../../utils/db'
+import connect from '../../utils/db'
 
 export default async function unsuscribe (req, res) {
   console.log(typeof req.body)
-  const { email, captchaToken } = JSON.parse(req.body)
+  const { email, captchaToken } = typeof (req.body) === 'string' ? JSON.parse(req.body) : req.body
   console.log(email)
   console.log(captchaToken)
   try {
@@ -22,19 +22,14 @@ export default async function unsuscribe (req, res) {
         .json({ error: 'You are a robot' })
     }
 
-    const results = await query(
-      `
-      INSERT INTO mailing (email)
-      VALUES (?)
-      `,
-      [email]
-    )
-    console.log(`Los resultados son: ${results}`)
-
-    return res.status(200) // ({ results: 'ok' })
+    const { Mailing } = await connect()
+    const result = await Mailing.create({ email: email, unsuscribed: true }, (err) => {
+      if (err) return res.status(500).json(err)
+    })
+    return res.status(200).json(result) // ({ results: 'ok' })
   } catch (e) {
     console.log(e)
-    return res.status(500) // .json({ error: e })
+    return res.status(500).json({ error: e })
   }
   /*
   if (req.headers.host !== process.env.APP_HOST) {

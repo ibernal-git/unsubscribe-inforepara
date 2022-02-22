@@ -1,22 +1,21 @@
-import mysql from 'serverless-mysql'
+import mongoose from 'mongoose'
 
-export const db = mysql({
-  config: {
-    host: process.env.MYSQL_HOST,
-    database: process.env.MYSQL_DATABASE,
-    user: process.env.MYSQL_USERNAME,
-    password: process.env.MYSQL_PASSWORD,
-    port: parseInt(process.env.MYSQL_PORT)
-  }
-})
+const DATABASE_URI = 'mongodb+srv://inforepara:JwYndn4PDHtdEsHQ@cluster0.gtirb.mongodb.net/mailing-list?retryWrites=true&w=majority'
+console.log(process.env.MONGODB_URI)
 
-export async function query (q, values) {
-  try {
-    const results = await db.query(q, values)
-    await db.end()
-    return results
-  } catch (e) {
-    console.log(e)
-    throw Error(e.message)
-  }
+export default async function connect () {
+  const conn = await mongoose
+    .connect(DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .catch(err => console.log(err))
+
+  console.log('Mongoose connection established')
+
+  const MailingSchema = new mongoose.Schema({
+    email: String,
+    unsuscribed: Boolean
+  })
+
+  const Mailing = mongoose.model('Mailing', MailingSchema)
+
+  return { conn, Mailing }
 }
