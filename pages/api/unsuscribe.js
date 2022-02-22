@@ -24,7 +24,7 @@ export default async function unsuscribe (req, res) {
 
     const { Mailing } = await connect()
     const result = await Mailing.create({ email: email, unsuscribed: true }, (err) => {
-      if (err) return res.status(500).json(err)
+      if (err) console.log(err)
     })
     return res.status(200).json(result) // ({ results: 'ok' })
   } catch (e) {
