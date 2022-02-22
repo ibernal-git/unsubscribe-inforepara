@@ -6,10 +6,10 @@ export default async function unsuscribe (req, res) {
   const body = JSON.parse(req.body)
   console.log(body.email)
   try {
-    let validCaptcha = await isValidCaptcha(captchaToken)
+    let validCaptcha = await isValidCaptcha(body.captchaToken)
     validCaptcha = true
 
-    if (!email) {
+    if (!body.email) {
       return res
         .status(400)
         .json({ error: 'email are required' })
@@ -26,7 +26,7 @@ export default async function unsuscribe (req, res) {
       INSERT INTO mailing (email)
       VALUES (?)
       `,
-      [email]
+      [body.email]
     )
     console.log(results)
 
