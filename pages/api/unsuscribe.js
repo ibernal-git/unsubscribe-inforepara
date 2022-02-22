@@ -29,8 +29,11 @@ export default async function unsuscribe (req, res) {
       VALUES (?)
       `,
       [email]
-      )
-      console.log(results)
+      ).then((results) => {
+        console.log('dentro')
+        console.log(results)
+      })
+      console.log(`Los results fuera: ${results}`)
 
       return res.json({ message: 'Suscripción correctamente cancelada', results: results })
     } catch (e) {
