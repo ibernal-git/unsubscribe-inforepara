@@ -5,8 +5,7 @@ export default async function unsubscribe (req, res) {
   const { email, captchaToken } = req.body
   await dbConnect()
   try {
-    let validCaptcha = await isValidCaptcha(captchaToken)
-    validCaptcha = true
+    const validCaptcha = await isValidCaptcha(captchaToken)
 
     if (!email) {
       return res

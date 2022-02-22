@@ -12,9 +12,8 @@ export default function Home () {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    // const captchaToken = await recaptchaRef.current.executeAsync()
-    // recaptchaRef.current.reset()
-    const captchaToken = 'a'
+    const captchaToken = await recaptchaRef.current.executeAsync()
+    recaptchaRef.current.reset()
 
     const email = event.target.email.value
 
