@@ -30,6 +30,7 @@ export default async function unsuscribe (req, res) {
       `,
       [email]
       )
+      console.log(results)
 
       return res.json({ message: 'Suscripción correctamente cancelada', results: results })
     } catch (e) {
