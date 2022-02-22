@@ -24,7 +24,6 @@ export default function Home () {
 
     if (validator.isEmail(email)) {
       setNotification('')
-      console.log({ email: event.target.email.value, captchaToken: captchaToken })
       try {
         const response = await fetch('/api/mysql', {
           method: 'POST',
@@ -64,7 +63,7 @@ export default function Home () {
           Cancela la suscripción de la lista de correo
         </h1>
         <form onSubmit={handleSubmit}>
-          <input name="email" type="text" placeholder="prueba@prueba.com"></input>
+          <input name="email" type="text" placeholder="tuemail@email.com"></input>
           <button>Enviar</button>
          <ReCAPTCHA
              ref={recaptchaRef}
