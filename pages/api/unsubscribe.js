@@ -2,6 +2,9 @@ import isValidCaptcha from '../../recaptcha'
 import dbConnect, { Unsubscribed } from '../../utils/db'
 
 export default async function unsubscribe (req, res) {
+  if (req.headers.host !== process.env.APP_HOST) {
+    return res.status(403).json({ success: false, error: 'Forbidden' })
+  }
   const { email, captchaToken } = req.body
   await dbConnect()
   try {

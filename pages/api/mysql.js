@@ -2,11 +2,13 @@ import isValidCaptcha from '../../recaptcha'
 import { query } from '../../utils/mysql'
 
 export default async function unsubscribe (req, res) {
+  if (req.headers.host !== process.env.APP_HOST) {
+    return res.status(403).json({ success: false, error: 'Forbidden' })
+  }
   const { email, captchaToken } = req.body
 
   try {
-    let validCaptcha = await isValidCaptcha(captchaToken)
-    validCaptcha = true
+    const validCaptcha = await isValidCaptcha(captchaToken)
 
     if (!email) {
       return res

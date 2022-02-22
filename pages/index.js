@@ -26,7 +26,7 @@ export default function Home () {
       setNotification('')
       console.log({ email: event.target.email.value, captchaToken: captchaToken })
       try {
-        const response = await fetch('/api/unsubscribe', {
+        const response = await fetch('/api/mysql', {
           method: 'POST',
           body: JSON.stringify({ email: event.target.email.value, captchaToken: captchaToken }),
           headers: {
