@@ -1,5 +1,5 @@
 import isValidCaptcha from '../../recaptcha'
-import { query } from '../../utils/db'
+import query from '../../utils/db'
 
 export default async function unsuscribe (req, res) {
   console.log(typeof req.body)
