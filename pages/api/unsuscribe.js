@@ -9,7 +9,6 @@ export default async function unsuscribe (req, res) {
     try {
       const validCaptcha = await isValidCaptcha(captchaToken)
       console.log(`Es valido o no: ${validCaptcha}`)
-      
 
       if (!email) {
         return res
