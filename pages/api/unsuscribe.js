@@ -3,13 +3,14 @@ import { query } from '../../utils/db'
 
 export default async function unsuscribe (req, res) {
   console.log(typeof req.body)
-  const body = JSON.parse(req.body)
-  console.log(body.email)
+  const { email, captchaToken } = JSON.parse(req.body)
+  console.log(email)
+  console.log(captchaToken)
   try {
-    let validCaptcha = await isValidCaptcha(body.captchaToken)
+    let validCaptcha = await isValidCaptcha(captchaToken)
     validCaptcha = true
 
-    if (!body.email) {
+    if (!email) {
       return res
         .status(400)
         .json({ error: 'email are required' })
@@ -26,9 +27,9 @@ export default async function unsuscribe (req, res) {
       INSERT INTO mailing (email)
       VALUES (?)
       `,
-      [body.email]
+      [email]
     )
-    console.log(results)
+    console.log(`Los resultados son: ${results}`)
 
     return res.status(200) // ({ results: 'ok' })
   } catch (e) {
