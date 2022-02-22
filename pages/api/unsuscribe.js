@@ -2,7 +2,9 @@ import isValidCaptcha from '../../recaptcha'
 import { query } from '../../utils/db'
 
 export default async function unsuscribe (req, res) {
-  const { email, captchaToken } = JSON.parse(req.body)
+  console.log(typeof req.body)
+  const body = JSON.parse(req.body)
+  console.log(body.email)
   try {
     let validCaptcha = await isValidCaptcha(captchaToken)
     validCaptcha = true
@@ -10,7 +12,7 @@ export default async function unsuscribe (req, res) {
     if (!email) {
       return res
         .status(400)
-        .json({ error: '`email` are required' })
+        .json({ error: 'email are required' })
     }
 
     if (!validCaptcha) {
