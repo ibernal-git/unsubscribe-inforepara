@@ -25,7 +25,7 @@ export default function Home () {
     if (validator.isEmail(email)) {
       setNotification('')
       try {
-        const response = await fetch('/api/mysql', {
+        const response = await fetch('/api/unsubscribe', {
           method: 'POST',
           body: JSON.stringify({ email: event.target.email.value, captchaToken: captchaToken }),
           headers: {
