@@ -1,5 +1,4 @@
 import isValidCaptcha from '../../recaptcha'
-// import dbConnect, { Unsubscribed } from '../../utils/db'
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
