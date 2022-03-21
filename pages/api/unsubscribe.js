@@ -35,6 +35,7 @@ export default async function unsubscribe (req, res) {
           unsubscribed: true
         }
       })
+      console.log(result)
       return res.status(201).json({ success: true, isAlreadyUnsuscribed: false, data: result })
     }
     return res.status(201).json({ success: true, isAlreadyUnsuscribed: true, data: emailInDB })
