@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export default async function unsubscribe (req, res) {
+  console.log(process.env.DATABASE_URL)
   if (req.headers.host !== process.env.APP_HOST) {
     return res.status(403).json({ success: false, error: 'Forbidden' })
   }
