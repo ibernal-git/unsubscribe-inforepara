@@ -5,7 +5,6 @@ const prisma = new PrismaClient()
 export default async function syncbbdd (req, res) {
   try {
     const data = await prisma.mailing.findMany({})
-
     const inforeparaDb = await query(`
     SELECT *
     FROM mailing
@@ -14,20 +13,14 @@ export default async function syncbbdd (req, res) {
     const inforeparaDbEmails = inforeparaDb.map((user) => {
       return user.email
     })
-    const newEmails = data
-      .map((data) => {
-        if (inforeparaDbEmails.includes(data.email)) return false
-        return data.email
-      })
-      .filter(email => {
-        return email !== false
-      })
+    const newEmails = data.filter(el => !inforeparaDbEmails.includes(el.email))
+
     console.table(newEmails)
 
-    const promises = newEmails.map((email) => {
+    const promises = newEmails.map((value) => {
       return new Promise((resolve, reject) => {
         db
-          .query('INSERT INTO mailing (email) VALUES (?)', [email])
+          .query('INSERT INTO mailing (email) VALUES (?)', [value.email])
           .then(results => {
             return resolve(results)
           }).catch(err => {
