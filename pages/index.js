@@ -39,7 +39,11 @@ export default function Home () {
           setNotification(error)
           throw new Error(error)
         } else {
-          setNotification('Suscripción correctamente cancelada')
+          const { isAlreadyUnsuscribed, data } = await response.json()
+          console.log({ isAlreadyUnsuscribed, data })
+          isAlreadyUnsuscribed
+            ? setNotification(`El email ${data?.email} ya está dado de baja de la lista de correo`)
+            : setNotification('Suscripción correctamente cancelada')
         }
       } catch (e) {
         console.error(e)
