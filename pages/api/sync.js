@@ -1,28 +1,33 @@
-import dbConnect, { Unsubscribed } from '../../utils/db'
+import dbConnect from '../../utils/db'
 import { query, db } from '../../utils/mysql'
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+const inforepara = new PrismaClient({ datasources: { db: { url: process.env.DATABASE_INFOREPARA } } })
 
 export default async function syncbbdd (req, res) {
   await dbConnect()
   try {
-    const mongoData = await Unsubscribed.find({})
+    const data = await prisma.mailing.findMany({})
+    const lol = await inforepara.mailing.findMany({})
+    console.log(lol)
 
-    const mysqlData = await query(`
+    const inforeparaDb = await query(`
     SELECT *
     FROM mailing
   `)
 
-    const mysqlEmails = mysqlData.map((user) => {
+    const inforeparaDbEmails = lol.map((user) => {
       return user.email
     })
-    const newEmails = mongoData
+    const newEmails = data
       .map((data) => {
-        if (mysqlEmails.includes(data.email)) return false
+        if (inforeparaDbEmails.includes(data.email)) return false
         return data.email
       })
       .filter(email => {
         return email !== false
       })
-    console.table(newEmails)
+    // console.table(newEmails)
 
     const promises = newEmails.map((email) => {
       return new Promise((resolve, reject) => {
