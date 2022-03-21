@@ -44,6 +44,7 @@ export default async function unsubscribe (req, res) {
   } catch (error) {
     console.log(error)
     console.log(process.env.DATABASE_URL)
+    console.log(req.headers['x-forwarded-for'])
     return res.status(400).json({ success: false, error: error, ip: req.headers['x-forwarded-for'] })
   }
 }
