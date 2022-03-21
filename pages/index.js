@@ -34,14 +34,12 @@ export default function Home () {
         })
 
         if (response.status !== 201) {
-          console.log(response)
           const { error } = await response.json()
           console.error(error)
           setNotification('Disculpe las molestias pero ha ocurrido un error')
           throw new Error(error)
         } else {
           const { isAlreadyUnsuscribed, data } = await response.json()
-          console.log({ isAlreadyUnsuscribed, data })
           isAlreadyUnsuscribed
             ? setNotification(`El email ${data?.email} ya está dado de baja de la lista de correo`)
             : setNotification('Suscripción correctamente cancelada')

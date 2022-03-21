@@ -4,7 +4,6 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export default async function unsubscribe (req, res) {
-  console.log(process.env.DATABASE_URL)
   if (req.headers.host !== process.env.APP_HOST) {
     return res.status(403).json({ success: false, error: 'Forbidden' })
   }
@@ -37,14 +36,10 @@ export default async function unsubscribe (req, res) {
           unsubscribed: true
         }
       })
-      console.log(result)
       return res.status(201).json({ success: true, isAlreadyUnsuscribed: false, data: result })
     }
     return res.status(201).json({ success: true, isAlreadyUnsuscribed: true, data: emailInDB })
   } catch (error) {
-    console.log(error)
-    console.log(process.env.DATABASE_URL)
-    console.log(req.headers['x-forwarded-for'])
-    return res.status(400).json({ success: false, error: error, ip: req.headers['x-forwarded-for'] })
+    return res.status(400).json({ success: false, error: error })
   }
 }
