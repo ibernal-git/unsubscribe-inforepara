@@ -43,6 +43,7 @@ export default async function unsubscribe (req, res) {
     return res.status(201).json({ success: true, isAlreadyUnsuscribed: true, data: emailInDB })
   } catch (error) {
     console.log(error)
+    console.log(process.env.DATABASE_URL)
     return res.status(400).json({ success: false, error: error })
   }
 }
