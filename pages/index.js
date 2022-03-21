@@ -48,6 +48,7 @@ export default function Home () {
         }
       } catch (e) {
         console.error(e)
+        setNotification(`Ha ocurrido un error: ${e.error}`)
       }
     } else {
       setNotification('Email incorrecto')
