@@ -36,8 +36,8 @@ export default function Home () {
         if (response.status !== 201) {
           console.log(response)
           const { error } = await response.json()
-          console.log(error)
-          setNotification(error)
+          console.error(error)
+          setNotification('Disculpe las molestias pero ha ocurrido un error')
           throw new Error(error)
         } else {
           const { isAlreadyUnsuscribed, data } = await response.json()
@@ -48,7 +48,6 @@ export default function Home () {
         }
       } catch (e) {
         console.error(e)
-        setNotification(`Ha ocurrido un error: ${e.error}`)
       }
     } else {
       setNotification('Email incorrecto')
