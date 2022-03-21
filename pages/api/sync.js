@@ -1,10 +1,8 @@
-import dbConnect from '../../utils/db'
 import { query, db } from '../../utils/mysql'
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export default async function syncbbdd (req, res) {
-  await dbConnect()
   try {
     const data = await prisma.mailing.findMany({})
 
