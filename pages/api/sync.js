@@ -10,11 +10,11 @@ export default async function syncbbdd (req, res) {
     const data = await prisma.mailing.findMany({})
     const lol = await inforepara.mailing.findMany({})
     console.log(lol)
-
+    /*
     const inforeparaDb = await query(`
     SELECT *
     FROM mailing
-  `)
+  `) */
 
     const inforeparaDbEmails = lol.map((user) => {
       return user.email
