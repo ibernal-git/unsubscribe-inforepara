@@ -36,6 +36,7 @@ export default function Home () {
         if (response.status !== 201) {
           console.log(response)
           const { error } = await response.json()
+          console.log(error)
           setNotification(error)
           throw new Error(error)
         } else {
