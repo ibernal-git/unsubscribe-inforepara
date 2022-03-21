@@ -1,5 +1,5 @@
 import dbConnect from '../../utils/db'
-import { query, db } from '../../utils/mysql'
+import { db } from '../../utils/mysql'
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 const inforepara = new PrismaClient({ datasources: { db: { url: process.env.DATABASE_INFOREPARA } } })
