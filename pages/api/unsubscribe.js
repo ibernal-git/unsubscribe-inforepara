@@ -29,6 +29,8 @@ export default async function unsubscribe (req, res) {
         email: email
       }
     })
+    const data = await prisma.mailing.findMany({})
+    console.log(data)
     if (!emailInDB) {
       const result = await prisma.mailing.create({
         data: {
