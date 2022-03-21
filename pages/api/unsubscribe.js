@@ -10,8 +10,7 @@ export default async function unsubscribe (req, res) {
   const { email, captchaToken } = req.body
 
   try {
-    let validCaptcha = await isValidCaptcha(captchaToken)
-    validCaptcha = true
+    const validCaptcha = await isValidCaptcha(captchaToken)
 
     if (!email) {
       return res
@@ -29,8 +28,6 @@ export default async function unsubscribe (req, res) {
         email: email
       }
     })
-    const data = await prisma.mailing.findMany({})
-    console.log(data)
     if (!emailInDB) {
       const result = await prisma.mailing.create({
         data: {
