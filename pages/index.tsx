@@ -2,20 +2,22 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import validator from 'validator'
-import { useRef, useState } from 'react'
+import { useRef, useState, FormEvent } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { CAPTCHA_CONFIG } from '../utils/constants'
 
 export default function Home () {
-  const recaptchaRef = useRef(null)
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
   const [notification, setNotification] = useState('')
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const captchaToken = await recaptchaRef.current.executeAsync()
-    recaptchaRef.current.reset()
+    const captchaToken = await recaptchaRef.current?.executeAsync()
+    recaptchaRef.current?.reset()
 
-    const email = event.target.email.value
+    const target = event.target as HTMLFormElement
+
+    const email = target.email.value as string
 
     if (!captchaToken) {
       setNotification('Verifica que no eres un robot 😊')
@@ -27,7 +29,7 @@ export default function Home () {
       try {
         const response = await fetch('/api/unsubscribe', {
           method: 'POST',
-          body: JSON.stringify({ email: event.target.email.value, captchaToken: captchaToken }),
+          body: JSON.stringify({ email: email, captchaToken: captchaToken }),
           headers: {
             'Content-Type': 'application/json'
           }

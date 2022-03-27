@@ -1,12 +1,23 @@
 import isValidCaptcha from '../../recaptcha'
-import { PrismaClient } from '@prisma/client'
+import { mailing, PrismaClient } from '@prisma/client'
+import type { NextApiRequest, NextApiResponse } from 'next'
 const prisma = new PrismaClient()
 
-export default async function unsubscribe (req, res) {
+interface Error {
+  success: false;
+  error: string;
+}
+interface Response {
+  success: true;
+  isAlreadyUnsuscribed: Boolean;
+  data: mailing;
+}
+
+export default async function unsubscribe (req: NextApiRequest, res: NextApiResponse<Response | Error>) {
   if (req.headers.host !== process.env.APP_HOST) {
     return res.status(403).json({ success: false, error: 'Forbidden' })
   }
-  const { email, captchaToken } = req.body
+  const { email, captchaToken } = req.body as { email: string, captchaToken: string}
 
   try {
     const validCaptcha = await isValidCaptcha(captchaToken)
@@ -38,6 +49,6 @@ export default async function unsubscribe (req, res) {
     }
     return res.status(201).json({ success: true, isAlreadyUnsuscribed: true, data: emailInDB })
   } catch (error) {
-    return res.status(400).json({ success: false, error: error })
+    return res.status(400).json({ success: false, error: error } as Error)
   }
 }
