@@ -3,7 +3,7 @@ const prisma = new PrismaClient()
 
 export default async function dbsleep (req, res) {
   try {
-    const result = await prisma.dbsleep.create()
+    const result = await prisma.dbsleep.create({})
     if (result) {
       return res.status(201).json({ success: true, data: result })
     }
