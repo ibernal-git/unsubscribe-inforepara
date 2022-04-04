@@ -13,3 +13,7 @@ model mailing {
   unsubscribed Boolean  @default(true)
   date_changed DateTime @default(now()) @db.DateTime(0)
 }
+
+model dbsleep {
+  id           Int      @id @default(autoincrement())
+}
