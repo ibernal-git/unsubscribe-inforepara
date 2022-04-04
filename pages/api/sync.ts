@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 export default async function syncbbdd (req: NextApiRequest, res: NextApiResponse) {
   try {
-    await prisma.dbsleep.create()
+    await prisma.dbsleep.create({})
     const data = await prisma.mailing.findMany({})
     const inforeparaDb: any = await query(`
     SELECT *
