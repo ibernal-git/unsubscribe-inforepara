@@ -1,17 +1,18 @@
 import { query, db } from '../../utils/mysql'
 import { PrismaClient } from '@prisma/client'
+import type { NextApiRequest, NextApiResponse } from 'next'
 const prisma = new PrismaClient()
 
-export default async function syncbbdd (req, res) {
+export default async function syncbbdd (req: NextApiRequest, res: NextApiResponse) {
   try {
     await prisma.dbsleep.create()
     const data = await prisma.mailing.findMany({})
-    const inforeparaDb = await query(`
+    const inforeparaDb: any = await query(`
     SELECT *
     FROM mailing
   `)
 
-    const inforeparaDbEmails = inforeparaDb.map((user) => {
+    const inforeparaDbEmails = inforeparaDb.map((user: any) => {
       return user.email
     })
     const newEmails = data.filter(el => !inforeparaDbEmails.includes(el.email))
